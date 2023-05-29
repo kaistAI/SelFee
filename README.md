@@ -3,7 +3,7 @@
 <a href="https://self-feedback-beta.dreamgonf.ly/" target="_blank"><img src="assets/llama_selfie.png" alt="KAIST-Selfee" style="width: 50%; min-width: 300px; display: block; margin: auto;"></a>
 </p>
 
-# SelFee: Iterative Self-Revising LLM Empowered by Self-Feedback Generation
+# SelFee: Iterative Self-Revising LLM Empowered by <br/> Self-Feedback Generation
 
 [![Code License](https://img.shields.io/badge/Code%20License-Apache_2.0-green.svg)](https://github.com/tatsu-lab/stanford_alpaca/blob/main/LICENSE)
 [![Data License](https://img.shields.io/badge/Data%20License-CC%20By%20NC%204.0-red.svg)](https://github.com/tatsu-lab/stanford_alpaca/blob/main/DATA_LICENSE)
@@ -92,7 +92,8 @@ Check out the <a href="https://self-feedback-beta.dreamgonf.ly/">demo</a>!
 
 
 ### Team members
-<a href="mailto:seonghyeon.ye@kaist.ac.kr">Seonghyeon Ye</a>,  <a href="mailto:yongrae@kaist.ac.kr">Yongrae Jo</a>, <a href="mailto:doyoungkim@kaist.ac.kr">Doyoung Kim</a>, <a href="mailto:sungdong.kim@kaist.ac.kr">Sungdong Kim</a>, <a href="mailto:hbin0701@kaist.ac.kr">Hyeonbin Hwang</a>, and <a href="mailto:minjoon@kaist.ac.kr">Minjoon Seo</a>.
+<a href="https://seonghyeonye.github.io/)">Seonghyeon Ye*</a>,  <a href="https://github.com/dreamgonfly">Yongrae Jo*</a>, <a href="https://github.com/doeyoungkim">Doyoung Kim*</a>, <a href="https://scholar.google.com/citations?user=xKrSnDoAAAAJ&hl">Sungdong Kim</a>, <a href="https://github.com/hbin0701">Hyeonbin Hwang</a>, and <a href="https://seominjoon.github.io/">Minjoon Seo</a>. <br/>
+(* denotes equal contribution)
 
 ### Release
 We will make available the training, serving, and evaluation code for our first release on a GitHub repository: <a href="https://github.com/seonghyeonye/Self-Feedback">https://github.com/seonghyeonye/Self-Feedback</a>. Additionally, we have released the Selfee-7B and Selfee-13B model weights, which can be found with instructions <a href="https://github.com/seonghyeonye/Self-Feedback#selfee-weights">here</a>. Keep up-to-date with the latest developments by following us on <a href="https://twitter.com/">Twitter</a>!
@@ -111,11 +112,10 @@ Please cite if you use the data or code in this repo.
 
 ```
 @misc{selfee2023,
-title = {Selfee: Chatbot that revises its own answers beats ChatGPT with 7B scale},
-url = {https://lklab.kaist.ac.kr/},
-author = {Ye, Seonghyeon$^*$ and Jo, Yongrae$^*$ and Kim, Doyoung$^*$ and Kim, Sungdong and Hwang, Hyeonbin and Seo, Minjoon},
+title = {SelFee: Iterative Self-Revising LLM Empowered by Self-Feedback Generation},
+url = {https://lklab.kaist.ac.kr/](https://kaist-lklab.github.io/selfee},
+author = {Ye, Seonghyeon and Jo, Yongrae and Kim, Doyoung and Kim, Sungdong and Hwang, Hyeonbin and Seo, Minjoon},
 month = {May},
 year = {2023},
-note = {$^*$ indicates equal contribution}
 }
 ```
