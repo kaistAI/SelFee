@@ -162,32 +162,6 @@ class SupervisedDataset(Dataset):
                 target += f"{tokenizer.eos_token}"
                 sources.append(source)
                 targets.append(target)
-        elif training_objective == "faf":
-            for example in list_data_dict:
-                source = feedback_utils.make_FAF_source(example)
-                target = feedback_utils.make_FAF_target(example)
-                target += f"{tokenizer.eos_token}"
-                sources.append(source)
-                targets.append(target)
-        elif training_objective == "split":
-            for example in list_data_dict:
-                example_sources, example_targets = feedback_utils.make_split_example(example, eos_token=tokenizer.eos_token)
-                
-                sources.extend(example_sources)
-                targets.extend(example_targets)
-        elif training_objective == "full-after-answer":
-            for example in list_data_dict:
-                source = feedback_utils.make_full_after_answer_source(example)
-                target = feedback_utils.make_full_after_answer_target(example)
-                target += f"{tokenizer.eos_token}"
-                sources.append(source)
-                targets.append(target)
-        elif training_objective == "continual-active":
-            for example in list_data_dict:
-                source = feedback_utils.make_continual_active_source(example)
-                target = feedback_utils.make_continual_active_target(example, eos_token=tokenizer.eos_token)
-                sources.append(source)
-                targets.append(target)
         elif training_objective == "answer-only":
             for example in list_data_dict:
                 source = feedback_utils.make_answer_only_source(example)
@@ -242,32 +216,6 @@ class LazySupervisedDataset(Dataset):
                 source = feedback_utils.make_full_source(example)
                 target = feedback_utils.make_full_target(example)
                 target += f"{self.tokenizer.eos_token}"
-                sources.append(source)
-                targets.append(target)
-        elif self.training_objective == "faf":
-            for example in examples:
-                source = feedback_utils.make_FAF_source(example)
-                target = feedback_utils.make_FAF_target(example)
-                target += f"{self.tokenizer.eos_token}"
-                sources.append(source)
-                targets.append(target)
-        elif self.training_objective == "split":
-            for example in examples:
-                example_sources, example_targets = feedback_utils.make_split_example(example, eos_token=self.tokenizer.eos_token)
-                
-                sources.extend(example_sources)
-                targets.extend(example_targets)
-        elif self.training_objective == "full-after-answer":
-            for example in examples:
-                source = feedback_utils.make_full_after_answer_source(example)
-                target = feedback_utils.make_full_after_answer_target(example)
-                target += f"{self.tokenizer.eos_token}"
-                sources.append(source)
-                targets.append(target)
-        elif self.training_objective == "continual-active":
-            for example in examples:
-                source = feedback_utils.make_continual_active_source(example)
-                target = feedback_utils.make_continual_active_target(example, eos_token=self.tokenizer.eos_token)
                 sources.append(source)
                 targets.append(target)
         elif self.training_objective == "answer-only":
@@ -328,7 +276,7 @@ def train():
         (ModelArguments, DataArguments, TrainingArguments))
     model_args, data_args, training_args = parser.parse_args_into_dataclasses()
 
-    assert data_args.training_objective in ["full", "faf", "split", "full-after-answer", "continual-active", "answer-only"]
+    assert data_args.training_objective in ["full", "answer-only"]
     
     model = transformers.LlamaForCausalLM.from_pretrained(
         model_args.model_name_or_path,

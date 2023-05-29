@@ -3,7 +3,7 @@
 <a href="https://self-feedback-beta.dreamgonf.ly/" target="_blank"><img src="assets/llama_selfie.png" alt="KAIST-Selfee" style="width: 50%; min-width: 300px; display: block; margin: auto;"></a>
 </p>
 
-# KAIST Selfee: Chatbot that Revises Its Own Answers beats ChatGPT with 7B scale
+# SelFee: Iterative Self-Revising LLM Empowered by Self-Feedback Generation
 
 [![Code License](https://img.shields.io/badge/Code%20License-Apache_2.0-green.svg)](https://github.com/tatsu-lab/stanford_alpaca/blob/main/LICENSE)
 [![Data License](https://img.shields.io/badge/Data%20License-CC%20By%20NC%204.0-red.svg)](https://github.com/tatsu-lab/stanford_alpaca/blob/main/DATA_LICENSE)
@@ -12,7 +12,7 @@
 
 
 ## News
-[May 6, 2023] Initial release: We released the first version of Selfee! Check out the <a href="https://lklab.kaist.ac.kr/">blog post</a> for more details.
+[May 31, 2023] Initial release: We released the first version of Selfee! Check out the <a href="https://lklab.kaist.ac.kr/">blog post</a> for more details.
 
 
 ## Overview
