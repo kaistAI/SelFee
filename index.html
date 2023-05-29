@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en-US">
+<head>
+	<!-- Google tag (gtag.js) -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-5NY2F88LHN"></script>
+	<script>
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+
+	gtag('config', 'G-5NY2F88LHN');
+	</script>
+	
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="author" content="SemiColonWeb" />
+
+	<!-- Stylesheets
+	============================================= -->
+	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,400i,700|Poppins:300,400,500,600,700|PT+Serif:400,400i&display=swap" rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" href="asset/css/bootstrap.css" type="text/css" />
+	<link rel="stylesheet" href="asset/style.css" type="text/css" />
+	<link rel="stylesheet" href="asset/css/swiper.css" type="text/css" />
+	<link rel="stylesheet" href="asset/css/dark.css" type="text/css" />
+	<link rel="stylesheet" href="asset/css/font-icons.css" type="text/css" />
+	<link rel="stylesheet" href="asset/css/animate.css" type="text/css" />
+	<link rel="stylesheet" href="asset/css/magnific-popup.css" type="text/css" />
+
+	<link rel="stylesheet" href="asset/css/custom.css" type="text/css" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<style>
+		.tg  {border-collapse:collapse;border-spacing:0;margin:0px auto;}
+		.tg td{border-color:#ccc;border-style:solid;border-width:1px;
+		  overflow:hidden;padding:10px 5px;word-break:normal;}
+		.tg .tg-head{background-color:#c0c0c0;border-color:#ccc;text-align:left;vertical-align:top;}
+		.tg .tg-body{text-align:left;vertical-align:top;}
+	</style>
+	<style>
+		iframe {
+		display: block;
+		width: 100%;
+		height: 900px;
+		border: none;
+		overflow: hidden;
+		}
+	</style>
+	<style>
+		video {
+		display: block;
+		width: 100%;
+		border: none;
+		overflow: hidden;
+		}
+	</style>
+	<!-- Document Title
+	============================================= -->
+	<!-- <title>SelFee: Enhancing Instruction-Following Ability via Generating Self-Feedback and Revision Iteratively</title> -->
+	<title> SelFee: Iterative Self-Revising LLM Empowered by Self-Feedback Generation </title>
+	<link rel = "icon" href = 
+	"asset/images/blog/selfee/llama_selfie.png" 
+			type = "image/x-icon">
+</head>
+
+<body class="stretched">
+
+	<!-- Document Wrapper
+	============================================= -->
+	<div id="wrapper" class="clearfix">
+
+		<!-- Header
+		============================================= -->
+		<header id="header" class="full-header">
+				<div id="header-wrap">
+					<div class="container">
+						<div class="header-row">
+
+							<!-- Logo
+							============================================= -->
+							<div id="logo">
+								<a href="https://lklab.kaist.ac.kr//"><img src="https://lklab.kaist.ac.kr/images/lab_logo.jpg"/></a>
+							</div>
+							<!-- #logo end -->
+
+							<div id="primary-menu-trigger">
+								<svg class="svg-trigger" viewbox="0 0 100 100"><path d="m 30,33 h 40 c 3.722839,0 7.5,3.126468 7.5,8.578427 0,5.451959 -2.727029,8.421573 -7.5,8.421573 h -20"></path><path d="m 30,50 h 40"></path><path d="m 70,67 h -40 c 0,0 -7.5,-0.802118 -7.5,-8.365747 0,-7.563629 7.5,-8.634253 7.5,-8.634253 h 20"></path></svg>
+							</div>
+
+							<!-- Primary Navigation
+							============================================= -->
+							<nav class="primary-menu">
+								<ul class="menu-container">
+									<li class="menu-item current"><a class="menu-link" href="https://lklab.kaist.ac.kr//"><div>Home</div></a></li>
+									<li class="menu-item"><a class="menu-link" href="https://lklab.kaist.ac.kr/people"><div>People</div></a></li>
+									<li class="menu-item"><a class="menu-link" href="https://lklab.kaist.ac.kr/publications"><div>Publications</div></a></li>
+									<li class="menu-item"><a class="menu-link" href="https://lklab.kaist.ac.kr/news"><div>News</div></a></li>
+									<li class="menu-item"><a class="menu-link" href="https://lklab.kaist.ac.kr/apply"><div>Apply</div></a></li>
+								</ul>
+							</nav>
+							<!-- #primary-menu end -->
+
+						</div>
+					</div>
+				</div>
+				<div class="header-wrap-clone"></div>
+			</header><!-- #header end -->
+
+					</div>
+				</div>
+
+			</div>
+		</section>
+
+		<!-- Content
+		============================================= -->
+		<section id="content">
+			<div class="content-wrap">
+				<div class="container clearfix">
+
+					<div class="heading-block center">
+						<h1 style="font-size:200%">SelFee: Iterative Self-Revising LLM <br> Empowered by Self-Feedback Generation </h1>
+						<span>Team SelFee, May 30, 2023</span>
+						<span style="font-size:15.0pt">
+							<a href="https://seonghyeonye.github.io/", target="_blank">Seonghyeon Ye*</a>,
+							<a href="https://github.com/dreamgonfly", target="_blank">Yongrae Jo*</a>,
+							<a href="https://github.com/doeyoungkim", target="_blank">Doyoung Kim*</a>,
+							<a href="https://scholar.google.com/citations?user=xKrSnDoAAAAJ&hl", target="_blank">Sungdong Kim</a>,
+							<a href="https://github.com/hbin0701", target="_blank">Hyeonbin Hwang</a>,
+							<a href="https://seominjoon.github.io/", target="_blank">Minjoon Seo</a>
+						</span>
+
+					</div>
+					<p style="color:gray; text-align: center;">
+						<img src="asset/images/blog/selfee/llama_selfie.png"style="width: 30%; margin-left: auto; margin-right: auto; margin-bottom: auto" ></img><br>
+						SelFee (generated by stable diffusion) 
+					</p>
+					<div class="fancy-title title-border col-lg-10 offset-lg-1">
+						<h3>News</h3>
+					</div>
+
+					<div class="row col-mb-80">
+
+						<!-- Post Content
+						============================================= -->
+						<div class="postcontent col-lg-10 offset-lg-1">
+							<!-- Posts
+							============================================= -->
+							<div id="posts" class="row grid-container col-lg-12">
+
+								<div class="entry col-12">
+									<div class="grid-inner row g-0">
+										<div class="col-md-12">
+											<div class="entry-title title-sm">
+												<b>[May 30, 2023] Initial release</b>
+											</div>
+											<div class="entry-content">
+												<p>
+													We released the first version of SelFee! Check out the <a href="https://selfee.lklab.io">demo</a> and <a href="https://github.com/kaist-lklab/SelFee">code</a>.<br>
+												</p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div><!-- #posts 2022 end -->
+						</div><!-- .postcontent end -->
+					</div>
+
+					<div class="fancy-title title-border col-lg-10 offset-lg-1">
+						<h3>Introducing SelFee</h3>
+					</div>
+
+					<div class="row col-mb-80">
+
+						<!-- Post Content
+						============================================= -->
+						<div class="postcontent col-lg-10 offset-lg-1">
+							<!-- Posts
+							============================================= -->
+							<div id="posts" class="row grid-container col-lg-12">
+
+								<div class="entry col-12">
+									<div class="grid-inner row g-0">
+										<div class="col-md-12">
+											<!-- <div class="entry-title title-sm">
+												<b></b>
+											</div> -->
+											<div class="entry-content">
+												<p>
+													We are excited to announce the release of SelFee, our new instruction-following language model that generates self-feedback on its response and self-revises abased on the feedback. We finetuned the LLaMA model (7B, 13B) using 178K training instances that contain self-feedback and revision data generated by ChatGPT.<br>
+													<!-- We are excited to announce the release of SelFee, our new AI model that represents a major leap forward in chatbot technology.<br> -->
+												</p>
+												
+												<!-- <iframe src="/images/blog/selfee/gpt4eval/index.html"></iframe> -->
+												<video autoplay muted loop>
+													<source src="asset/videos/selfee_demo1.mov" type="video/mp4">
+													<strong>Your browser does not support the video tag.</strong>
+												</video>
+												<!-- <p style="color:gray; text-align: center;">Figure 1. Demo example of SelFee</p> -->
+												<p>
+													<br>
+													Both of our SelFee models (7B, 13B) outperform <a href = "https://ai.facebook.com/blog/large-language-model-llama-meta-ai/">LLaMA</a>, <a href= "https://crfm.stanford.edu/2023/03/13/alpaca.html">Alpaca</a>, <a href = "https://lmsys.org/blog/2023-03-30-vicuna/"> Vicuna</a>, <a href = "https://arxiv.org/abs/2305.14314">Guanaco</a> and are comparable to ChatGPT, making them some of the most powerful open-sourced models available today.* SelFee is particularly effective in creative writing or long-form text generation, as it requires an iterative writing process to generate high-quality text for humans.<br>
+													We acknowledge the limitations in the comprehensiveness and consistency of the evaluation settings. We are planning to evaluate our model using a more comprehensive, consistent, and reliable evaluation setup. Please take these claims with a grain of salt.<br>
+												</p>
+												<p>
+													<p style="color:gray; text-align: center;">
+														<img src="asset/images/blog/selfee/results.png", width="750", height="250"><br>
+														Figure 1. Evaluation Result of SelFee on Vicuna Evaluation Setting
+													</p>
+													*According to the evaluation setting of <a href="https://lmsys.org/blog/2023-03-30-vicuna/">Vicuna</a>. <br>
+													
+												</p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div><!-- #posts 2022 end -->
+						</div><!-- .postcontent end -->
+					</div>
+
+					<div class="fancy-title title-border col-lg-10 offset-lg-1">
+						<h3>Overview of SelFee</h3>
+					</div>
+
+					<div class="row col-mb-80">
+
+						<!-- Post Content
+						============================================= -->
+						<div class="postcontent col-lg-10 offset-lg-1">
+							<!-- Posts
+							============================================= -->
+							<div id="posts" class="row grid-container col-lg-12">
+
+								<div class="entry col-12">
+									<div class="grid-inner row g-0">
+										<div class="col-md-12">
+											<div class="entry-title title-sm">
+												<b>TL;DR</b>
+											</div>
+											<div class="entry-content">
+												<p>
+													Recent research has demonstrated that the performance of language models can be enhanced through natural language feedback (<a href="https://arxiv.org/abs/2303.11366">Reflexion</a>, <a href="https://arxiv.org/abs/2211.00053">Self-Correct</a>, <a href="https://arxiv.org/abs/2305.08844">RL4F</a>).  In particular, language models that generate their own feedback without relying on external models or tools have proven to be effective (<a href= "https://arxiv.org/abs/2208.11663">PEER</a>, <a href= "https://arxiv.org/abs/2303.17651">Self-Refine</a>, <a href= "https://arxiv.org/abs/2206.05802">Self-Critique</a>).
+													Motivated by the effectiveness of self-feedback generation, we release a model that is fine-tuned for self-feedback and self-revision generation. Unlike previous approaches, our model does not require a document retrieval process, few-shot demonstrations for in-context learning, a large LLM over 100B in size, or task-specific models.
+													<br>
+													<br>
+													SelFee is a LLaMA-based instruction-following model that has been fine-tuned to continuously revise its own answer until it provides a high-quality response in a single inference.
+													When presented with an instruction Q, our model generates not only the initial answer A0 but also self-feedback sequences F0. By analyzing the content of the generated feedback F0, the model determines whether a revision is necessary or not.
+													If a revision is deemed necessary, the model generates the revised answer A1 based on the feedback F0. 
+													Additionally, it generates F1, which represents feedback for A1, and so forth. Importantly, this entire process is completed within a single inference. Even with this straightforward task, our model demonstrates a significant improvement over existing LLaMA-based models.
+												</p>
+
+												
+												<p style="color:gray; text-align: center;">
+													<img src="asset/images/blog/selfee/process.png"><br>
+													Figure 2. The generation process of SelFee, an example of 3 revisions.
+												</p>
+												<br>
+											</div>
+											<div class="entry-title title-sm">
+												<b>Contributions of SelFee:</b>
+											</div>
+											<div class="entry-content">
+												<p>
+													1. We have collected instruction data from various sources (ShareGPT, Alpaca, Math, Code, and Flan Collection), resulting in a dataset of 178K training instances. <br>
+													2. We have augmented the feedback and revision instances through distillation from a teacher LLM, ChatGPT. This distillation process helps address the scarcity of feedback and revision data at a more affordable cost. <br>
+													3. By enforcing the model to undergo revisions, we observe improvements in the final answers. Increasing the minimum number of required revisions corresponds to a corresponding increase in performance.
+													<!-- One of the secret to our success is our approach to training data augmentation, which involves augmenting data with ChatGPT to collect high-quality instructions from diverse areas (ShareGPT + Alpaca + Math + Code), and then using ChatGPT to generate output for the instruction.<br> -->
+													<!-- <video controls>
+														<source src="asset/videos/SelFee_Data_Augmentation_Scheme.mp4" type="video/mp4">
+														<strong>Your browser does not support the video tag.</strong>
+													</video> -->
+													<br>
+													<!-- After making the model forcefully revise its initial answer twice, its performance increases even more, allowing it to produce the highest quality responses possible. SelFee's unique ability to revise its own answers means that it is always working to provide the best possible response to any given question.<br> -->
+												</p>
+											</div>
+
+											<!-- <div class="entry-title title-sm">
+												<b>Project Workflow</b>
+											</div>
+											<div class="entry-content">
+												<p>
+													There are 5 steps in our workflow: Data collecting, Data augmenting, Training, Inferencing and Evaluating.
+													We only used publicly available datasets, and minimum amount of API calls for augmentation. We also provide our training data.<br>
+													We also provide the whole code we used for the whole process for anyone to replicate our process.<br>
+													Moreover, we provide 7B and 13B size model of SelFee, as well as demo service for anyone who wonder how our models work.
+												</p>
+												<p style="color:gray; text-align: center;">
+													<img src="asset/images/blog/selfee/SelFee_workflow.png"><br>
+													Figure 3. Workflow of SelFee.
+												</p>
+											</div> -->
+
+
+
+										</div>
+									</div>
+								</div>
+							</div><!-- #posts 2022 end -->
+						</div><!-- .postcontent end -->
+					</div>
+					<div class="fancy-title title-border col-lg-10 offset-lg-1">
+						<h3>Data Collection and Augmentation</h3>
+					</div>
+
+					<div class="row col-mb-80">
+
+						<!-- Post Content
+						============================================= -->
+						<div class="postcontent col-lg-10 offset-lg-1">
+							<!-- Posts
+							============================================= -->
+							<div id="posts" class="row grid-container col-lg-12">
+
+								<div class="entry col-12">
+									<div class="grid-inner row g-0">
+										<div class="col-md-12">
+
+											<div class="entry-content">
+												<p>
+													To train our model with various instructions and answer pairs, we utilized data augmentation using OpenAI API calls. The process involved three steps. <br>
+													1. We collected a range of instructions from multiple sources and input them into ChatGPT to generate corresponding answers. <br>
+													2. We obtained feedback on the generated answers by querying ChatGPT once again and asked it to assess whether any revision was necessary for the initial answer. <br>
+													3. If a revision was deemed necessary, we had ChatGPT revise the answer based on the self-generated feedback.
+													We repeated this process until the model determined that no further revisions were required.<br><br>
+													For data augmentation, we used datasets from five different sources. These are the Stanford Alpaca dataset, math collection, code collection, Flan collection, and ShareGPT. Force Math collection, Code collection, and Flan collection, since the annotated ground truth answer is available for each of these questions, we used ChatGPT to generate feedback on its own generation when conditioned on the ground truth answer.
+												</p>	
+												<div class="entry-title title-sm">
+													<b>Stanford Alpaca dataset (52K)</b>
+												</div>
+												<p>
+													We include the dataset used to train the Stanford Alpaca model. The dataset contains around 52k instructions, which is generated by OpenAI’s text-davinci-003 following the self-instruct process. We only used the instructions of the dataset and and obtained responses and feedback using ChatGPT.<br>
+												</p>
+												<div class="entry-title title-sm">
+													<b>Math collection (26K)</b>
+												</div>
+												<p>
+													The math collection consists of three different datasets: <a href= "https://arxiv.org/abs/1705.04146">AQUA</a> (10k), <a href="https://arxiv.org/abs/2110.14168">GSM8K</a> (8.79k), and <a href="https://arxiv.org/abs/2103.03874">MATH</a> (7.47k). <br>
+												</p>	
+												<div class="entry-title title-sm">
+													<b>Code collection (30K)</b>
+												</div>
+												<p>
+													The code collection consists of three datasets: <a href= "https://conala-corpus.github.io">Conala</a> (2.78k), <a href= "https://github.com/deepmind/code_contests">Deepmind Code Contest</a> (8.16k), <a href= "https://arxiv.org/abs/2005.10636">Dr Repair</a> (18k), and <a href="https://arxiv.org/abs/2108.07732">MBPP</a> (969).<br>
+												</p>	
+												<div class="entry-title title-sm">
+													<b>FLAN collection (16K)</b>
+												</div>
+												<p>
+													The FLAN collection includes subsets of <a href = "https://arxiv.org/abs/2301.13688">FLAN collection</a> datasets. We only utilized ten instances per task and excluded the subsets from Dr Repair and Deepmind Code Contest since they were already included in the code collection.<br>
+												</p>	
+
+												<div class="entry-title title-sm">
+													<b>ShareGPT (55K)</b>
+												</div>
+												<p>
+													Initially, we collected 90k dialogues shared by users on ShareGPT through public APIs. To maintain data quality, we removed any non-English conversations and performed deduplication at the user-query level. This resulted in 54.6k training examples.<br>
+												</p>		
+												<!-- <p>
+													To summarize, we collect 178k instances of high-quality instructions from various domains to train SelFee.
+												</p>		 -->
+												<!-- <table class="tg" style="display: flex;justify-content: center;">
+													<tbody>
+														<tr>
+														<td class="tg-head"><span style="font-weight:bold;">Category</span></td>
+														<td class="tg-head"><span style="font-weight:bold;">Contents</span></td>
+														<td class="tg-head"><span style="font-weight:bold;">Size</span></td>
+														<td class="tg-head"><span style="font-weight:bold;">Publicity</span></td>
+														<td class="tg-head"><span style="font-weight:bold;">Notes</span></td>
+														</tr>
+														<tr>
+														<td class="tg-body">Stanford Alpaca</td>
+														<td class="tg-body">Self-Instruct from davinci-003 API</td>
+														<td class="tg-body">52K</td>
+														<td class="tg-body">Yes</td>
+														<td class="tg-body">Used for Alpaca</td>
+														</tr>
+
+														<tr>
+														<td class="tg-body">Math Collection</td>	
+														<td class="tg-body">Aqua, GSM8K, Math</td>
+														<td class="tg-body">26.3K</td>
+														<td class="tg-body">Yes</td>
+														<td class="tg-body">-</td>
+														</tr>
+														<tr>
+														<td class="tg-body">Code Collection</td>	
+														<td class="tg-body">Conala, DMCC, Dr Repair, Mbpp</td>
+														<td class="tg-body">29.9K</td>
+														<td class="tg-body">Yes</td>
+														<td class="tg-body">10 instances per task</td>
+														</tr>
+														<tr>
+															<td class="tg-body">FLAN Collection</td>	
+															<td class="tg-body">Subset of Flan collection</td>
+															<td class="tg-body">15.6K</td>
+															<td class="tg-body">Yes</td>
+															<td class="tg-body">-</td>
+														</tr>
+														<tr>
+															<td class="tg-body">ShareGPT</td>	
+															<td class="tg-body">User-shared conversations</td>
+															<td class="tg-body">54.6K</td>
+															<td class="tg-body">Yes</td>
+															<td class="tg-body">Used for Vicuna</td>
+															</tr>
+													</tbody>
+												</table> -->
+												<!-- <p style="color:gray; text-align: center;">Table 1. We collect 178k instances of instructions from various domains. Then, we augmented the dataset with ChatGPT's feedback and revision responses to train SelFee.</p>		 -->
+											</div>
+										</div>
+									</div>
+								</div>
+							</div><!-- #posts 2022 end -->
+						</div><!-- .postcontent end -->
+					</div>
+
+					<div class="fancy-title title-border col-lg-10 offset-lg-1">
+						<h3>Training</h3>
+					</div>
+
+					<div class="row col-mb-80">
+
+						<!-- Post Content
+						============================================= -->
+						<div class="postcontent col-lg-10 offset-lg-1">
+							<!-- Posts
+							============================================= -->
+							<div id="posts" class="row grid-container col-lg-12">
+
+								<div class="entry col-12">
+									<div class="grid-inner row g-0">
+										<div class="col-md-12">
+											<!-- <div class="entry-title title-sm">
+												<b>FastChat</b>
+											</div> -->
+											<div class="entry-content">
+												<p>
+													We utilize <a href="https://github.com/lm-sys/FastChat">FastChat</a> to train the model. Given the instruction, we fine-tune the model to generate the answer and feedback chain (including the revisions).<br>
+												</p>
+												<table class="tg" style="display: flex;justify-content: center;">
+													<tbody>
+													  <tr>
+														<td class="tg-head"><span style="font-weight:bold;">Model Name</span></td>
+														<td class="tg-head"><span style="font-weight:bold;">Dataset</span></td>
+														<td class="tg-head"><span style="font-weight:bold;">Training Code</span></td>
+														<td class="tg-head"><span style="font-weight:bold;">Weights</span></td>
+														<td class="tg-head"><span style="font-weight:bold;">Evaluation Metrics</span></td>
+													  </tr>
+													  <tr>
+														<td class="tg-body">LLaMA</td>
+														<td class="tg-body">Publicly available datasets<br>(1T token)</td>
+														<td class="tg-body">N/A</td>
+														<td class="tg-body">Available<br>(7B, 13B, 30B, 65B)</td>
+														<td class="tg-body">Academic benchmark</td>
+														<!-- <td class="tg-body">Available<br>(7B, 13B, 30B, 65B)</td>
+														<td class="tg-body">Self-instruct from davinci-003 API<br>(52K samples)</td>
+														<td class="tg-body">User-shared conversations<br>(70K samples)</td>
+														<td class="tg-body">Feedback & Revision augmentation from ChatGPT<br>(178K samples)</td>
+														<td class="tg-body">N/A</td> -->
+													  </tr>
+													  <tr>
+														<td class="tg-body">Alpaca</td>
+														<td class="tg-body">Self-instruct from davinci-003 API<br>(52K samples)</td>
+														<td class="tg-body">Available</td>
+														<td class="tg-body">Available<br>(7B)</td>
+														<td class="tg-body">Author evaluation</td>
+													  </tr>
+													  <tr>
+														<td class="tg-body">Vicuna</td>
+														<td class="tg-body">User-shared conversations<br>(70K samples)</td>
+														<td class="tg-body">Available</td>
+														<td class="tg-body">Available<br>(7B, 13B)</td>
+														<td class="tg-body">GPT-4 assessment</td>
+													  </tr>
+													  <tr>
+														<td class="tg-body">SelFee</td>
+														<td class="tg-body">Feedback & Revision augmentation from ChatGPT<br>(178K samples)</td>
+														<td class="tg-body">Available</td>
+														<td class="tg-body">Available<br>(7B, 13B)</td>
+														<td class="tg-body">GPT-4 assessment</td>
+													  </tr>
+													  <tr>
+														<td class="tg-body">Bard/ChatGPT</td>
+														<td class="tg-body">N/A</td>
+														<td class="tg-body">N/A</td>
+														<td class="tg-body">N/A</td>
+														<td class="tg-body">Mixed</td>
+													  </tr>
+		
+													  <!-- <tr>
+														<td class="tg-body">Training code</td>
+														<td class="tg-body">N/A</td>
+														<td class="tg-body">Available</td>
+														<td class="tg-body">Available</td>
+														<td class="tg-body">Available</td>
+														<td class="tg-body">N/A</td>
+													  </tr>
+													  <tr>
+														<td class="tg-body">Weights</td>
+														<td class="tg-body">Available<br>(7B, 13B, 30B, 65B)</td>
+														<td class="tg-body">Available<br>(7B)</td>
+														<td class="tg-body">Available<br>(7B, 13B)</td>
+														<td class="tg-body">Available<br>(7B, 13B)</td>
+														<td class="tg-body">N/A</td>
+													  </tr>
+													  <tr>
+														<td class="tg-body">Evaluation metrics</td>
+														<td class="tg-body">Academic benchmark</td>
+														<td class="tg-body">Author evaluation</td>
+														<td class="tg-body">GPT-4 assessment</td>
+														<td class="tg-body">GPT-4 assessment</td>
+														<td class="tg-body">Mixed</td>
+													  </tr> -->
+													</tbody>
+												</table>
+												<p style="color:gray; text-align: center;">Table 2. Comparsion of training details with other notable models</p>		
+
+											</div>
+
+										</div>
+									</div>
+								</div>
+							</div><!-- #posts 2022 end -->
+						</div><!-- .postcontent end -->
+						
+					</div>
+					<div class="fancy-title title-border col-lg-10 offset-lg-1">
+						<h3>Inference</h3>
+					</div>
+
+					<div class="row col-mb-80">
+
+						<!-- Post Content
+						============================================= -->
+						<div class="postcontent col-lg-10 offset-lg-1">
+							<!-- Posts
+							============================================= -->
+							<div id="posts" class="row grid-container col-lg-12">
+
+								<div class="entry col-12">
+									<div class="grid-inner row g-0">
+										<div class="col-md-12">
+									
+											
+											<div class="entry-title title-sm">
+												<b>Effect of Enforcing Revisions</b>
+											</div>
+											<div class="entry-content">
+												<p>
+													During the inference process, we observed that the quality of an answer improved with a higher number of revisions. When we augmented the training data through ChatGPT, more revisions did not always guarantee a higher-quality answer. It was particularly evident that forcing a revision when ChatGPT deemed it unnecessary actually decreased the quality of the output. <br>
+													In contrast, SelFee was trained to autonomously revise the output using feedback in an autoregressive manner. This led us to investigate whether enforcing our model to revise every question would enhance the quality of the output. The results of our investigation are as follows!<br>
+												</p>
+												<p style="color:gray; text-align: center;">
+													<img src="asset/images/blog/selfee/selfee_revision.png",width="210", height="350"><br>
+													Figure 3. Evaluation results of Selfee (13B) on Vicuna evaluation setting depending on the minimum number of required revisions. 
+													
+												<p>
+													As shown in the above figure, enforcing a minimum of 3 revisions yields the best performance. Interestingly, a 7B SelFee model that generates at least 3 revisions outperforms a 13B SelFee model that is not required to generate revisions (101.4 vs. 98.2). This suggests that increasing the inference computation of a language model may be more effective than simply increasing the model size.
+												<p>
+
+												</p>
+											</div>
+										
+										</div>
+									</div>
+								</div>
+								
+							</div><!-- #posts 2022 end -->
+						</div><!-- .postcontent end -->
+					</div>
+
+					<div class="fancy-title title-border col-lg-10 offset-lg-1">
+						<h3>Evaluation</h3>
+					</div>
+
+					<div class="row col-mb-80">
+
+						<!-- Post Content
+						============================================= -->
+						<div class="postcontent col-lg-10 offset-lg-1">
+							<!-- Posts
+							============================================= -->
+							<div id="posts" class="row grid-container col-lg-12">
+
+								<div class="entry col-12">
+									<div class="grid-inner row g-0">
+										<div class="col-md-12">
+											
+											<div class="entry-title title-sm">
+												<b>Evaluation Setting</b>
+											</div>
+											<div class="entry-content">
+												<p>
+													We primarily adopt the evaluation setting of Vicuna, which involves using 80 queries encompassing diverse topics. Instead of conducting an expensive human evaluation, we perform a pilot evaluation employing GPT-4 as the evaluator. We report the relative scores compared to our teacher model, ChatGPT. 
+													Considering that GPT-4 is known to exhibit positional bias, we employ a bidirectional evaluation setting. This means that each evaluation instance is inferred twice, depending on its position. <br>
+												</p>
+												<p style="color:gray; text-align: center;">
+													<img src="asset/images/blog/selfee/selfee_abtest.png",width="700", height="350"><br>
+													Figure 4. Win Rate test with other models utilizing GPT-4 Assessment.
+
+												<p>
+											</div>
+											
+											<!-- <div class="entry-title title-sm">
+												<b>Self consistency evaluation</b>
+											</div>
+											<div class="entry-content">
+												<p>
+													We noticed that the qualiy of an answer got higher as there were more revisions. So we enforced our model to revise at least twice, see the outcomes!<br>
+												</p>
+									
+											</div> -->
+											
+											
+										</div>
+									</div>
+								</div>
+								
+							</div><!-- #posts 2022 end -->
+						</div><!-- .postcontent end -->
+					</div>
+
+					<div class="fancy-title title-border col-lg-10 offset-lg-1">
+						<h3>Limitations</h3>
+					</div>
+
+					<div class="row col-mb-80">
+
+						<!-- Post Content
+						============================================= -->
+						<div class="postcontent col-lg-10 offset-lg-1">
+							<!-- Posts
+							============================================= -->
+							<div id="posts" class="row grid-container col-lg-12">
+
+								<div class="entry col-12">
+									<div class="grid-inner row g-0">
+										<div class="col-md-12">
+											<!-- <div class="entry-title title-sm">
+												<b></b>
+											</div> -->
+											<div class="entry-content">
+												<p>
+													While SelFee (7B, 13B) demonstrates comparable performance to ChatGPT in the Vicuna evaluation setting, we have identified areas where our model lacks knowledge in math, reasoning, factuality, and coding compared to ChatGPT. We recognize that our current evaluation setting does not provide a complete picture, as it has limitations in terms of comprehension (limited to 80 queries), inconsistency, and unreliability. We are actively developing a more comprehensive and reliable evaluation setting, and we encourage you to stay tuned for further updates!  
+												</p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div><!-- #posts 2022 end -->
+						</div><!-- .postcontent end -->
+					</div>
+
+					<div class="fancy-title title-border col-lg-10 offset-lg-1">
+						<h3>Online demo</h3>
+					</div>
+
+					<div class="row col-mb-80">
+
+						<!-- Post Content
+						============================================= -->
+						<div class="postcontent col-lg-10 offset-lg-1">
+							<!-- Posts
+							============================================= -->
+							<div id="posts" class="row grid-container col-lg-12">
+
+								<div class="entry col-12">
+									<div class="grid-inner row g-0">
+										<div class="col-md-12">
+											<!-- <div class="entry-title title-sm">
+												<b></b>
+											</div> -->
+											<div class="entry-content">
+												<p>
+													Check out the <a href="https://selfee.lklab.io">demo</a>!
+												</p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div><!-- #posts 2022 end -->
+						</div><!-- .postcontent end -->
+					</div>
+
+					<div class="fancy-title title-border col-lg-10 offset-lg-1">
+						<h3>Team members</h3>
+					</div>
+					<div class="row col-mb-80">
+
+						<!-- Post Content
+						============================================= -->
+						<div class="postcontent col-lg-10 offset-lg-1">
+							<!-- Posts
+							============================================= -->
+							<div id="posts" class="row grid-container col-lg-12">
+
+								<div class="entry col-12">
+									<div class="grid-inner row g-0">
+										<div class="col-md-12">
+											<!-- <div class="entry-title title-sm">
+												<b></b>
+											</div> -->
+											<div class="entry-content">
+												<p>
+													<a href="mailto:seonghyeon.ye@kaist.ac.kr">Seonghyeon Ye*</a>,  <a href="mailto:yongrae@kaist.ac.kr">Yongrae Jo*</a>, <a href="mailto:doyoungkim@kaist.ac.kr">Doyoung Kim*</a>, <a href="mailto:sungdong.kim@kaist.ac.kr">Sungdong Kim</a>, <a href="mailto:hbin0701@kaist.ac.kr">Hyeonbin Hwang</a>, and <a href="mailto:minjoon@kaist.ac.kr">Minjoon Seo</a>. <br>(* denotes equal contribution)
+												</p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div><!-- #posts 2022 end -->
+						</div><!-- .postcontent end -->
+					</div>
+
+					<div class="fancy-title title-border col-lg-10 offset-lg-1">
+						<h3>Release</h3>
+					</div>
+
+					<div class="row col-mb-80">
+
+						<!-- Post Content
+						============================================= -->
+						<div class="postcontent col-lg-10 offset-lg-1">
+							<!-- Posts
+							============================================= -->
+							<div id="posts" class="row grid-container col-lg-12">
+
+								<div class="entry col-12">
+									<div class="grid-inner row g-0">
+										<div class="col-md-12">
+											<!-- <div class="entry-title title-sm">
+												<b></b>
+											</div> -->
+											<div class="entry-content">
+												<p>
+													The data augmentation, training and evaluation code is available on our <a href="https://github.com/kaist-lklab/SelFee">Github</a> repository. Additionally, we have released the SelFee-7B and SelFee-13B model diff weights, which can be found with instructions <a href="https://github.com/seonghyeonye/Self-Feedback#SelFee-weights">here</a>. Moreover, the training instances used to train SelFee is released on <a href="huggingface.co">huggingface</a>. 
+												</p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div><!-- #posts 2022 end -->
+						</div><!-- .postcontent end -->
+					</div>
+
+
+
+					<div class="fancy-title title-border col-lg-10 offset-lg-1">
+						<h3>License</h3>
+					</div>
+
+					<div class="row col-mb-80">
+
+						<!-- Post Content
+						============================================= -->
+						<div class="postcontent col-lg-10 offset-lg-1">
+							<!-- Posts
+							============================================= -->
+							<div id="posts" class="row grid-container col-lg-12">
+
+								<div class="entry col-12">
+									<div class="grid-inner row g-0">
+										<div class="col-md-12">
+											<!-- <div class="entry-title title-sm">
+												<b></b>
+											</div> -->
+											<div class="entry-content">
+												<p>
+													The research preview online demo is only for non-commercial use and is subject to various licenses and terms of use, including the LLaMA model <a href="https://github.com/facebookresearch/llama/blob/main/MODEL_CARD.md">License</a>, OpenAI's <a href="https://openai.com/policies/terms-of-use">Terms of Use</a> for the generated data, and ShareGPT's <a href="https://chrome.google.com/webstore/detail/sharegpt-share-your-chatg/daiacboceoaocpibfodeljbdfacokfjb">Privacy Practices</a>. If you suspect any violations, please reach out to us.
+												</p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div><!-- #posts 2022 end -->
+						</div><!-- .postcontent end -->
+					</div>
+
+
+					<div class="fancy-title title-border col-lg-10 offset-lg-1">
+						<h3>Citation</h3>
+					</div>
+
+					<div class="row col-mb-80">
+
+						<!-- Post Content
+						============================================= -->
+						<div class="postcontent col-lg-10 offset-lg-1">
+							<!-- Posts
+							============================================= -->
+							<div id="posts" class="row grid-container col-lg-12">
+
+								<div class="entry col-12">
+									<div class="grid-inner row g-0">
+										<div class="col-md-12">
+											<!-- <div class="entry-title title-sm">
+												<b></b>
+											</div> -->
+											<div class="entry-content">
+												<pre>
+													<code>
+@misc{selfee2023,
+title = {SelFee: Iterative Self-Revising LLM Empowered by Self-Feedback Generation},
+url = {https://kaist-lklab.github.io/selfee},
+author = {Ye, Seonghyeon and Jo, Yongrae and Kim, Doyoung and Kim, Sungdong and Hwang, Hyeonbin and Seo, Minjoon},
+month = {May},
+year = {2023}
+}
+													</code>
+												</pre>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div><!-- #posts 2022 end -->
+						</div><!-- .postcontent end -->
+					</div>
+				</div>
+			</div>
+		</section><!-- #content end -->
+
+		<!-- Footer
+		============================================= -->
+		<footer id="footer" class="dark">
+			<div class="container">
+				<!-- Footer Widgets
+				============================================= -->
+				<div class="footer-widgets-wrap">
+
+					<div class="row col-mb-50 offset-lg-0">
+						<div class="col-lg-10">
+
+							<div class="row col-mb-50">
+								<div class="col-md-9">
+									<div class="widget clearfix">
+										<p><strong>Visit Us</strong></p>
+										<p> Building 9 Suite 202, <br>
+											Kim Jaechul Graduate School of Artificial Intelligence, KAIST 85 Hoegi-ro,<br>
+											Dongdaemun-gu, Seoul 02455, Republic of Korea<br></p>
+									</div>
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div><!-- .footer-widgets-wrap end -->
+			</div>
+
+			<!-- Copyrights
+			============================================= -->
+			<div id="copyrights">
+				<div class="container">
+					<div class="row col-mb-30">
+						<div class="col-md-12 text-center">
+							&copy; 2022. KAIST Language & Knowledge Lab. All rights reserved.<br>
+						</div>
+					</div>
+				</div>
+			</div><!-- #copyrights end -->
+		</footer>
+
+	</div><!-- #wrapper end -->
+
+	<!-- Go To Top
+	============================================= -->
+	<!-- <div id="gotoTop" class="icon-angle-up"></div> -->
+
+	<!-- JavaScripts
+	============================================= -->
+	<script src="asset/js/jquery.js"></script>
+	<script src="asset/js/plugins.min.js"></script>
+
+	<!-- Footer Scripts
+	============================================= -->
+	<script src="asset/js/functions.js"></script>
+
+</body>
+</html>
