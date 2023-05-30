@@ -1,3 +1,5 @@
+"""This code is sourced from 4960ca7 commit of https://github.com/lm-sys/FastChat/blob/main/fastchat/eval/eval_gpt_review.py"""
+
 import argparse
 import json
 import os
@@ -18,8 +20,6 @@ REQ_TIME_GAP = 10
 
 @ray.remote(num_cpus=4)
 def get_eval(sys_prompt, user_prompt: str, max_tokens: int):
-    openai.api_key = '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'
-
     logging.basicConfig(level=logging.INFO)
     for i in range(MAX_API_RETRY):
         try:
@@ -123,7 +123,7 @@ if __name__ == '__main__':
     question_idx_list = list(range(total_len))
 
     for i in question_idx_list:
-        # assert answer1_jsons[i]['question_id'] == question_jsons[i]['question_id'] == answer2_jsons[i]['question_id']
+        assert answer1_jsons[i]['question_id'] == question_jsons[i]['question_id'] == answer2_jsons[i]['question_id']
 
         ques = question_jsons[i]['text']
         cat = question_jsons[i]['category']
@@ -134,8 +134,6 @@ if __name__ == '__main__':
         review_jsons.append({
             'review_id': review_id,
             'question_id': question_jsons[i]['question_id'],
-            # 'answer1_id': answer1_jsons[i]['answer_id'],
-            # 'answer2_id': answer2_jsons[i]['answer_id'],
             'reviewer_id': reviewer_id,
             'metadata': {},
         })
