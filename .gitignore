@@ -1,0 +1,27 @@
+# Python
+__pycache__
+*.pyc
+*.egg-info
+dist
+.venv
+
+# Log
+*.log
+*.log.*
+*.json
+
+# Editor
+.idea
+*.swp
+
+# Other
+.DS_Store
+wandb
+output
+
+# Data
+*.pkl
+*.csv
+
+# Script
+*.sh
