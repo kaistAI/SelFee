@@ -250,7 +250,7 @@ if __name__ == "__main__":
     parser.add_argument("--question-file", type=str, required=True)
     parser.add_argument("--answer-file", type=str, default="answer.jsonl")
     parser.add_argument("--num-gpus", type=int, default=1)
-    parser.add_argument("--max-num-revisions", type=int, default=3)
+    parser.add_argument("--max-num-revisions", type=int, default=0)
     args = parser.parse_args()
 
     ray.init()
