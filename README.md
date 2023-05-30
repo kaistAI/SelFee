@@ -1,6 +1,6 @@
 
 <p align="center" width="100%">
-<a href="https://self-feedback-beta.dreamgonf.ly/" target="_blank"><img src="assets/llama_selfie.png" alt="KAIST-Selfee" style="width: 50%; min-width: 300px; display: block; margin: auto;"></a>
+<a href="https://self-feedback-beta.dreamgonf.ly/" target="_blank"><img src="assets/llama_selfie.png" alt="KAIST-Selfee" style="width: 30%; min-width: 200px; display: block; margin: auto;"></a>
 </p>
 
 # SelFee: Iterative Self-Revising LLM Empowered by <br/> Self-Feedback Generation
