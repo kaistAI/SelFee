@@ -190,21 +190,24 @@
 												
 												<!-- <iframe src="/images/blog/selfee/gpt4eval/index.html"></iframe> -->
 												<video autoplay muted loop>
-													<source src="asset/videos/selfee_demo1.mov" type="video/mp4">
+													<source src="asset/videos/selfee_final_revised.mp4" type="video/mp4">
 													<strong>Your browser does not support the video tag.</strong>
 												</video>
 												<!-- <p style="color:gray; text-align: center;">Figure 1. Demo example of SelFee</p> -->
 												<p>
 													<br>
-													Both of our SelFee models (7B, 13B) outperform <a href = "https://ai.facebook.com/blog/large-language-model-llama-meta-ai/">LLaMA</a>, <a href= "https://crfm.stanford.edu/2023/03/13/alpaca.html">Alpaca</a>, <a href = "https://lmsys.org/blog/2023-03-30-vicuna/"> Vicuna</a>, <a href = "https://arxiv.org/abs/2305.14314">Guanaco</a> and are comparable to ChatGPT, making them some of the most powerful open-sourced models available today.* SelFee is particularly effective in creative writing or long-form text generation, as it requires an iterative writing process to generate high-quality text for humans.<br>
-													We acknowledge the limitations in the comprehensiveness and consistency of the evaluation settings. We are planning to evaluate our model using a more comprehensive, consistent, and reliable evaluation setup. Please take these claims with a grain of salt.<br>
+													On Vicuna evaluation setting, both of our SelFee models (7B, 13B) outperform <a href = "https://ai.facebook.com/blog/large-language-model-llama-meta-ai/">LLaMA</a>, <a href= "https://crfm.stanford.edu/2023/03/13/alpaca.html">Alpaca</a>, <a href = "https://lmsys.org/blog/2023-03-30-vicuna/"> Vicuna</a>, <a href = "https://arxiv.org/abs/2305.14314">Guanaco</a> and are comparable to ChatGPT, making them some of the most powerful open-sourced models available today. SelFee is particularly effective in creative writing or long-form text generation, as it requires an iterative writing process to generate high-quality text for humans. 
+													However, similar to other open-sourced models, our model also fails on math, reasoning, factuality, and coding tasks compared to closed-API models such as ChatGPT or Bard.
+													This suggests that better base LMs are needed for better factuality (<a href="https://arxiv.org/abs/2305.15717">The False Promise of Imitating Proprietary LLMs</a>).
+													<br>
+													Also, we acknowledge the limitations in the comprehensiveness and consistency of the evaluation settings. We are planning to evaluate our model using a more comprehensive, consistent, and reliable evaluation setup. Please take these claims with a grain of salt.<br>
 												</p>
 												<p>
 													<p style="color:gray; text-align: center;">
 														<img src="asset/images/blog/selfee/results.png", width="750", height="250"><br>
 														Figure 1. Evaluation Result of SelFee on Vicuna Evaluation Setting
 													</p>
-													*According to the evaluation setting of <a href="https://lmsys.org/blog/2023-03-30-vicuna/">Vicuna</a>. <br>
+						
 													
 												</p>
 											</div>
@@ -260,7 +263,7 @@
 												<p>
 													1. We have collected instruction data from various sources (ShareGPT, Alpaca, Math, Code, and Flan Collection), resulting in a dataset of 178K training instances. <br>
 													2. We have augmented the feedback and revision instances through distillation from a teacher LLM, ChatGPT. This distillation process helps address the scarcity of feedback and revision data at a more affordable cost. <br>
-													3. By enforcing the model to undergo revisions, we observe improvements in the final answers. Increasing the minimum number of required revisions corresponds to a corresponding increase in performance.
+													3. By enforcing the model to undergo revisions, we observe improvements in the final answers. Increasing the minimum number of required revisions corresponds to a corresponding increase in performance. This implies that scaling the inference computation to generate longer sequence might be more effective than scaling the model size.
 													<!-- One of the secret to our success is our approach to training data augmentation, which involves augmenting data with ChatGPT to collect high-quality instructions from diverse areas (ShareGPT + Alpaca + Math + Code), and then using ChatGPT to generate output for the instruction.<br> -->
 													<!-- <video controls>
 														<source src="asset/videos/SelFee_Data_Augmentation_Scheme.mp4" type="video/mp4">
@@ -552,7 +555,7 @@
 													Figure 3. Evaluation results of Selfee (13B) on Vicuna evaluation setting depending on the minimum number of required revisions. 
 													
 												<p>
-													As shown in the above figure, enforcing a minimum of 3 revisions yields the best performance. Interestingly, a 7B SelFee model that generates at least 3 revisions outperforms a 13B SelFee model that is not required to generate revisions (101.4 vs. 98.2). This suggests that increasing the inference computation of a language model may be more effective than simply increasing the model size.
+													As shown in the above figure, enforcing a minimum of 3 revisions yields the best performance. Interestingly, a 7B SelFee model that generates at least 3 revisions outperforms a 13B SelFee model that is not required to generate revisions (101.4 vs. 98.2). <b>This suggests that increasing the inference computation of a language model may be more effective than simply increasing the model size.</b> 
 												<p>
 
 												</p>
@@ -592,7 +595,7 @@
 													Considering that GPT-4 is known to exhibit positional bias, we employ a bidirectional evaluation setting. This means that each evaluation instance is inferred twice, depending on its position. <br>
 												</p>
 												<p style="color:gray; text-align: center;">
-													<img src="asset/images/blog/selfee/selfee_abtest.png",width="700", height="350"><br>
+													<img src="asset/images/blog/selfee/selfee_abtest.png",width="500", height="250"><br>
 													Figure 4. Win Rate test with other models utilizing GPT-4 Assessment.
 
 												<p>
@@ -638,7 +641,8 @@
 											</div> -->
 											<div class="entry-content">
 												<p>
-													While SelFee (7B, 13B) demonstrates comparable performance to ChatGPT in the Vicuna evaluation setting, we have identified areas where our model lacks knowledge in math, reasoning, factuality, and coding compared to ChatGPT. We recognize that our current evaluation setting does not provide a complete picture, as it has limitations in terms of comprehension (limited to 80 queries), inconsistency, and unreliability. We are actively developing a more comprehensive and reliable evaluation setting, and we encourage you to stay tuned for further updates!  
+													While SelFee (7B, 13B) demonstrates comparable performance to ChatGPT in the Vicuna evaluation setting, we have identified areas where our model lacks knowledge in math, reasoning, factuality, and coding compared to ChatGPT. Since this is a common limitation of current open-source models (Vicuna, Alpaca, Guanaco, etc), further research on building better base models should be explored. 
+													<br> Also, we recognize that our current evaluation setting does not provide a complete picture, as it has limitations in terms of comprehension (limited to 80 queries), inconsistency, and unreliability. We are actively developing a more comprehensive and reliable evaluation setting, and we encourage you to stay tuned for further updates!  
 												</p>
 											</div>
 										</div>
@@ -669,8 +673,15 @@
 											</div> -->
 											<div class="entry-content">
 												<p>
-													Check out the <a href="https://selfee.lklab.io">demo</a>!
+													Check out the <a href="https://selfee.lklab.io">demo</a>! <br>
+													Note that the inference of the model on the demo page enforces at least 1 revision due to practical inference latency. To change the inference settings, visit our <a href="https://github.com/kaist-lklab/SelFee">Github</a> repository!
+													
 												</p>
+												<video autoplay muted loop>
+													<source src="asset/videos/selfee_demo1.mov" type="video/mp4">
+													<strong>Your browser does not support the video tag.</strong>
+												</video>
+												<br><br>
 											</div>
 										</div>
 									</div>
@@ -797,11 +808,12 @@
 												<pre>
 													<code>
 @misc{selfee2023,
-title = {SelFee: Iterative Self-Revising LLM Empowered by Self-Feedback Generation},
-url = {https://kaist-lklab.github.io/selfee},
-author = {Ye, Seonghyeon and Jo, Yongrae and Kim, Doyoung and Kim, Sungdong and Hwang, Hyeonbin and Seo, Minjoon},
-month = {May},
-year = {2023}
+	author = {Ye, Seonghyeon and Jo, Yongrae and Kim, Doyoung and Kim, Sungdong and Hwang, Hyeonbin and Seo, Minjoon},
+	title = {SelFee: Iterative Self-Revising LLM Empowered by Self-Feedback Generation},
+	url = {https://kaist-lklab.github.io/selfee},
+	month = {May},
+	year = {2023},
+	howpublished = {Blog post}
 }
 													</code>
 												</pre>
