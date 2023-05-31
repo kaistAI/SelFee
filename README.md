@@ -1,6 +1,6 @@
 
 <p align="center" width="100%">
-<a href="https://self-feedback-beta.dreamgonf.ly/" target="_blank"><img src="assets/llama_selfie.png" alt="KAIST-Selfee" style="width: 30%; min-width: 200px; display: block; margin: auto;"></a>
+<a href="https://kaistai.github.io/SelFee/demo" target="_blank"><img src="assets/llama_selfie.png" alt="KAIST-Selfee" style="width: 30%; min-width: 200px; display: block; margin: auto;"></a>
 </p>
 
 # SelFee: Iterative Self-Revising LLM Empowered by <br/> Self-Feedback Generation
@@ -12,23 +12,23 @@
 
 
 ## News
-[May 31, 2023] Initial release: We released the first version of Selfee! Check out the <a href="https://lklab.kaist.ac.kr/">blog post</a> for more details.
+[May 31, 2023] Initial release: We released the first version of SelFee! Check out the <a href="https://kaistai.github.io/SelFee/">blog post</a> for more details.
 
 
 ## Overview
-This is the repository for the KAIST Selfee project, which aims to build and share an instruction-following LLaMA model. This repo mainly has five contents:
-- The selection process of the 178K training data for Selfee ([detail](#data-release), [code](data_collection)).
+This is the repository for the KAIST SelFee project, which aims to build and share an instruction-following LLaMA model. This repo mainly has five contents:
+- The selection process of the 178K training data for SelFee ([detail](#data-release), [code](data_collection)).
 - The generation process for the training data and its result. ([detail](#data-generation-process), [code](data_augmentation)).
 - The training process for the model  ([detail](#training), [code](train)).
-- The inference process for the model ([detail](#inferencing), [code](inference)).
-- The evaluation method and dataset ([detail](#evaluating), [code](evaluation)).
+- The inference process for the model ([detail](#inference), [code](inference)).
+- The evaluation method and dataset ([detail](#evaluation), [code](evaluation)).
 
 
 This repository is based on the [Stanford-Alpaca](https://github.com/tatsu-lab/stanford_alpaca/) and [Vicuna](https://github.com/lm-sys/FastChat/) repository. Thanks to all the contributors for these awesome repositories!! 🙌
 
 
 
-**We highly recommend you read our [blog post](https://lklab.kaist.ac.kr/) for more details about the model.**
+**We highly recommend you read our [blog post](https://kaistai.github.io/SelFee/) for more details about the model.**
 
 
 ## Data Release
@@ -63,7 +63,6 @@ For data collection, we collected datasets from five different fields. These are
 
 ## Data Generation Process
 
-<source media="(min-width: 1200px)" src="videos/Selfee_Data_Augmentation_Scheme.mp4" type="video/mp4">
 To train our model with high-quality instructions and answer pairs, we utilized data augmentation using OpenAI API calls. The process involved three steps. <br>
 Firstly, we collected various instructions from multiple fields and fed them to ChatGPT to generate answers. <br>
 Secondly, we gathered feedback on the generated answer by querying ChatGPT again and asked it to determine if the initial answer required any revision. <br>
@@ -166,7 +165,27 @@ python evaluation/gpt4_automatic_evaluation.py -q evaluation/template/question.j
 Similar to other LLaMA-finetuned models, SelFee also make some mistakes especially for math, reasoning, factuality, and coding tasks. Although our performance outperforms ChatGPT on Vicuna setting, the evaluation setting contains some limitations in terms of comprehension (limited to 80 queries), inconsistency, and unreliability. Therefore, further research for a better evaluation setting is needed. Please take these claims with a grain of salt.
 
 ### Online demo
-Check out the <a href="https://self-feedback-beta.dreamgonf.ly/">demo</a>!
+Check out the <a href="https://kaistai.github.io/SelFee/demo">demo</a>!
+
+#### How to launch the demo
+To serve the web demo yourself, run the following commands:
+
+1. Run the controller
+```
+python3 -m serve.controller
+```
+
+2. Run the model worker
+```
+python3 -m serve.model_worker --model-path $MODEL_PATH --port 21002 --worker-address=http://localhost:21002 --model-name=SelFee-13b
+```
+
+3. Run the web server
+```
+python3 -m serve.gradio_web_server --share
+```
+
+You can find the serving code [here](serve)
 
 
 ### Team members
@@ -174,7 +193,7 @@ Check out the <a href="https://self-feedback-beta.dreamgonf.ly/">demo</a>!
 (* denotes equal contribution)
 
 ### Release
-We will make available the training, serving, and evaluation code for our first release on a GitHub repository: <a href="https://github.com/seonghyeonye/Self-Feedback">https://github.com/seonghyeonye/Self-Feedback</a>. Additionally, we have released the Selfee-7B and Selfee-13B model weights, which can be found with instructions <a href="https://github.com/seonghyeonye/Self-Feedback#selfee-weights">here</a>. Keep up-to-date with the latest developments by following us on <a href="https://twitter.com/">Twitter</a>!
+We have released the SelFee-7B and SelFee-13B model diff weights, which can be found with instructions here. Moreover, the training instances used to train SelFee is released on huggingface.
 
 ### License
 
@@ -192,7 +211,7 @@ Please cite if you use the data or code in this repo.
 @misc{selfee2023,
 	author = {Ye, Seonghyeon and Jo, Yongrae and Kim, Doyoung and Kim, Sungdong and Hwang, Hyeonbin and Seo, Minjoon},
 	title = {SelFee: Iterative Self-Revising LLM Empowered by Self-Feedback Generation},
-	url = {https://kaist-lklab.github.io/selfee},
+	url = {https://kaistai.github.io/SelFee/},
 	month = {May},
 	year = {2023},
 	howpublished = {Blog post}
