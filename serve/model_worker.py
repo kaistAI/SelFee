@@ -25,6 +25,7 @@ from serve.constants import WORKER_HEART_BEAT_INTERVAL
 from serve.inference import load_model, generate_stream
 from serve.utils import (build_logger, server_error_msg,
     pretty_print_semaphore)
+from serve.inference import event
 
 GB = 1 << 30
 
@@ -136,6 +137,10 @@ class ModelWorker:
             }
             yield json.dumps(ret).encode() + b"\0"
 
+    def stop_stream(self):
+        logger.error(f"STOP_GENERATION has been called")
+        event.set()
+
 
 app = FastAPI()
 
@@ -162,6 +167,10 @@ async def api_generate_stream(request: Request):
 @app.post("/worker_get_status")
 async def api_get_status(request: Request):
     return worker.get_status()
+
+@app.post("/worker_stop_stream")
+async def api_get_status(request: Request):
+    return worker.stop_stream()
 
 
 if __name__ == "__main__":

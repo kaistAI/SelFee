@@ -10,6 +10,9 @@ from serve.monkey_patch_non_inplace import replace_llama_attn_with_non_inplace_o
 
 import logging
 
+import threading
+event = threading.Event()
+
 def load_model(model_path, device, num_gpus, load_8bit=False, debug=False):
     if device == "cpu":
         kwargs = {}
@@ -181,6 +184,10 @@ def generate_stream(model, tokenizer, params, device,
             if pos != -1:
                 output = output[:pos]
                 stopped = True
+            if event.is_set():
+                logging.error("Generation has been stopped")
+                event.clear()
+                break
             yield output
 
         if stopped:

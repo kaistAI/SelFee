@@ -125,6 +125,7 @@ def flag_last_response(state, model_selector, request: gr.Request):
 
 def stop_response(state, model_selector, request: gr.Request):
     logger.info(f"stop. ip: {request.client.host}")
+    _ = requests.post(state.worker_addr + "/worker_stop_stream", timeout=5)
     return ("",) + (enable_btn, enable_btn, disable_btn, enable_btn, enable_btn)
 
 
@@ -212,6 +213,7 @@ def http_bot(state, model_selector, temperature, max_new_tokens, request: gr.Req
     ret = requests.post(controller_url + "/get_worker_address",
             json={"model": model_name})
     worker_addr = ret.json()["address"]
+    state.worker_addr = worker_addr
     logger.info(f"model_name: {model_name}, worker_addr: {worker_addr}")
 
     # No available worker
@@ -283,6 +285,7 @@ def http_bot(state, model_selector, temperature, max_new_tokens, request: gr.Req
         return
 
     state.messages[-1][-1] = state.messages[-1][-1][:-1]
+    state.worker_addr = None
     yield (state, state.to_gradio_chatbot()) + (enable_btn, enable_btn, disable_btn, enable_btn, enable_btn)
 
     finish_tstamp = time.time()

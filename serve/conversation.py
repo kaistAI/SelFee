@@ -42,6 +42,8 @@ class Conversation:
     skip_next: bool = False
     conv_id: Any = None
 
+    worker_addr: str = None
+
     def get_prompt(self):
         
         # Concat style
