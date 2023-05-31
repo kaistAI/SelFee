@@ -16,4 +16,7 @@ tokenizers==0.13.3
 torch==2.0.1
 transformers
 wandb
-
+datasets
+tenacity
+multiprocessing
+fcntl
