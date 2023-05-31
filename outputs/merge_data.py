@@ -2,7 +2,7 @@ import json
 
 # Load JSON files into variables
 json_list = []
-for filename in ['../outputs/feedback_gpt_3.5_turbo_llama.jsonl',
+for filename in ['../outputs/alpaca/feedback_gpt_3.5_turbo_alpaca.jsonl',
 '../outputs/flan+code+math/feedback_gpt_3.5_turbo_aqua.jsonl',
 '../outputs/flan+code+math/feedback_gpt_3.5_turbo_conala.jsonl',
 '../outputs/flan+code+math/feedback_gpt_3.5_turbo_dmcc.jsonl',
@@ -11,14 +11,17 @@ for filename in ['../outputs/feedback_gpt_3.5_turbo_llama.jsonl',
 '../outputs/flan+code+math/feedback_gpt_3.5_turbo_gsm8k.jsonl',
 '../outputs/flan+code+math/feedback_gpt_3.5_turbo_math_hendrycks.jsonl',
 '../outputs/flan+code+math/feedback_gpt_3.5_turbo_mbpp.jsonl',
-'../outputs/feedback_gpt_3.5_turbo_sharegpt_90k_processed.json']:
+'../outputs/sharegpt/feedback_gpt_3.5_turbo_sharegpt_90k_processed.jsonl']:
     with open(filename, 'r') as f:
-        new_list = json.loads(f.read())
-    json_list.extend(new_list)
-
+        for line in f:
+            item =json.loads(line)
+            item["dataset"]=filename.split('_')[-1].split('.')[0]
+            # print(item["dataset_name"])
+            json_list.append(item)
 # Convert merged list back into a JSON string
-merged_json = json.dumps(json_list)
+
 
 # Write the merged JSON to a new file
 with open('feedback_gpt_3.5_turbo_merged_whole.json', 'w+') as f:
-    f.write(merged_json)
+    json.dump(json_list, f)
+    print(len(json_list))
