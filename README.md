@@ -167,6 +167,26 @@ Similar to other LLaMA-finetuned models, SelFee also make some mistakes especial
 ### Online demo
 Check out the <a href="https://kaistai.github.io/SelFee/demo">demo</a>!
 
+#### How to launch the demo
+To serve the web demo yourself, run the following commands:
+
+1. Run the controller
+```
+python3 -m serve.controller
+```
+
+2. Run the model worker
+```
+python3 -m serve.model_worker --model-path $MODEL_PATH --port 21002 --worker-address=http://localhost:21002 --model-name=SelFee-13b
+```
+
+3. Run the web server
+```
+python3 -m serve.gradio_web_server --share
+```
+
+You can find the serving code [here](serve)
+
 
 ### Team members
 <a href="https://seonghyeonye.github.io/)">Seonghyeon Ye*</a>,  <a href="https://github.com/dreamgonfly">Yongrae Jo*</a>, <a href="https://github.com/doeyoungkim">Doyoung Kim*</a>, <a href="https://scholar.google.com/citations?user=xKrSnDoAAAAJ&hl">Sungdong Kim</a>, <a href="https://github.com/hbin0701">Hyeonbin Hwang</a>, and <a href="https://seominjoon.github.io/">Minjoon Seo</a>. <br/>
