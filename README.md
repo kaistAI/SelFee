@@ -89,6 +89,13 @@ The hyperparameters are as follows, following Vicuna and Alpaca.
 
 
 ## Inference
+<b>Restroing checkpoint using diff</b><br>
+We provide diff weight and code which can restore the same model with SelFee. To restore the original SelFee weight, you first need to convert the Meta's original LLAMA checkpoint into huggingface format into your local machine. Once you are done, you can restore the same checkpoint of our model by using the following command
+```
+python inference/apply_delta.py --path_raw {path_to_llama_7b} --path_tuned /ckpt/selfee-7b --path_diff kaist-ai/selfee-7b-delta
+```
+
+
 <b>Autonomous Inference Mode</b><br>
 
 Because SelFee is trained to generate iterative feedback and revisions until the response is satisfying, it automatically generates iterative feedback and revisions on a single forward pass. The model autonomously decides when to stop generating revisions based on the feedback. If the feedback chain ends with sequences like `Revision is not needed.`, the model autonomously terminates generation. <br>
