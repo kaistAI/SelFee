@@ -18,6 +18,7 @@ dist
 .DS_Store
 wandb
 output
+huggingface
 
 # Data
 *.pkl
