@@ -1,8 +1,11 @@
-"""
+"""This code is sourced from f475817 commit of https://github.com/lm-sys/FastChat/blob/main/fastchat/model/apply_delta.py
+
 Apply the delta weights on top of a base model.
 
 Usage:
-python3 -m fastchat.model.apply_delta --base ~/model_weights/llama-7b --target ~/model_weights/vicuna-7b --delta lmsys/vicuna-7b-delta-v1.1
+python apply_delta.py --base ~/model_weights/llama-7b --target ~/model_weights/selfee-7b --delta lmsys/selfee-7b-delta
+or
+python apply_delta.py --base ~/model_weights/llama-13b --target ~/model_weights/selfee-13b --delta lmsys/selfee-13b-delta
 """
 import argparse
 import gc
