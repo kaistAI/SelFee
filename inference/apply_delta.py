@@ -1,168 +1,110 @@
-"""This code is sourced from f475817 commit of https://github.com/lm-sys/FastChat/blob/main/fastchat/model/apply_delta.py
+"""This code is sourced from 7a95b21 commit of https://github.com/tatsu-lab/stanford_alpaca/blob/main/weight_diff.py
 
 Apply the delta weights on top of a base model.
 
-Usage:
-python apply_delta.py --base ~/model_weights/llama-7b --target ~/model_weights/selfee-7b --delta lmsys/selfee-7b-delta
-or
-python apply_delta.py --base ~/model_weights/llama-13b --target ~/model_weights/selfee-13b --delta lmsys/selfee-13b-delta
 """
-import argparse
-import gc
-import glob
-import json
-import os
-import shutil
-import tempfile
+import sys
+sys.path.append('../train')
 
-from huggingface_hub import snapshot_download
+from typing import Optional
+
+import fire
 import torch
-from torch import nn
-from tqdm import tqdm
-from transformers import AutoTokenizer, AutoModelForCausalLM, AutoConfig
+import tqdm
+import transformers
+from train import smart_tokenizer_and_embedding_resize
 
 
-GB = 1 << 30
 
 
-def split_files(model_path, tmp_path, split_size):
-    if not os.path.exists(model_path):
-        model_path = snapshot_download(repo_id=model_path)
-    if not os.path.exists(tmp_path):
-        os.makedirs(tmp_path)
+@torch.inference_mode()
+def recover(
+    path_raw,
+    path_diff,
+    path_tuned: Optional[str] = None,
+    device="cpu",
+    test_inference=True,
+    check_integrity_naively=True,
+):
+    """Recover the original weights from the released weight diff.
 
-    file_pattern = os.path.join(model_path, "pytorch_model-*.bin")
-    files = glob.glob(file_pattern)
+    This function is given for you to run.
 
-    part = 0
-    try:
-        for file_path in tqdm(files):
-            state_dict = torch.load(file_path)
-            new_state_dict = {}
+    Things to do before running this:
+        1. Convert Meta's released weights into huggingface format. Follow this guide:
+            https://huggingface.co/docs/transformers/main/model_doc/llama
+        2. Make sure you cloned the released weight diff into your local machine. The 7B and 13B weight diff are located at:
+            https://huggingface.co/kaist-ai/selfee-7b-delta/tree/main
+            and
+            https://huggingface.co/kaist-ai/selfee-13b-delta/tree/main, respectively.
+        3. Run this function with the correct paths. E.g.,
+            python apply_delta.py --path_raw <path_to_step_1_dir> --path_diff <path_to_step_2_dir>
 
-            current_size = 0
-            for name, param in state_dict.items():
-                param_size = param.numel() * param.element_size()
-
-                if current_size + param_size > split_size:
-                    new_file_name = f"pytorch_model-{part}.bin"
-                    new_file_path = os.path.join(tmp_path, new_file_name)
-                    torch.save(new_state_dict, new_file_path)
-                    current_size = 0
-                    new_state_dict = None
-                    gc.collect()
-                    new_state_dict = {}
-                    part += 1
-
-                new_state_dict[name] = param
-                current_size += param_size
-
-            new_file_name = f"pytorch_model-{part}.bin"
-            new_file_path = os.path.join(tmp_path, new_file_name)
-            torch.save(new_state_dict, new_file_path)
-            new_state_dict = None
-            gc.collect()
-            new_state_dict = {}
-            part += 1
-    except Exception as e:
-        print(f"An error occurred during split_files: {e}")
-        shutil.rmtree(tmp_path)
-        raise
-
-
-def apply_delta_low_cpu_mem(base_model_path, target_model_path, delta_path):
-    delta_tokenizer = AutoTokenizer.from_pretrained(delta_path, use_fast=False)
-    delta_config = AutoConfig.from_pretrained(delta_path)
-
-    if os.path.exists(target_model_path):
-        shutil.rmtree(target_model_path)
-    os.makedirs(target_model_path)
-
-    split_size = 4 * GB
-
-    with tempfile.TemporaryDirectory() as tmp_base_path, tempfile.TemporaryDirectory() as tmp_delta_path:
-        print(f"Split files for the base model to {tmp_base_path}")
-        split_files(base_model_path, tmp_base_path, split_size)
-        print(f"Split files for the delta weights to {tmp_delta_path}")
-        split_files(delta_path, tmp_delta_path, split_size)
-
-        base_pattern = os.path.join(tmp_base_path, "pytorch_model-*.bin")
-        base_files = glob.glob(base_pattern)
-        delta_pattern = os.path.join(tmp_delta_path, "pytorch_model-*.bin")
-        delta_files = glob.glob(delta_pattern)
-        delta_state_dict = torch.load(delta_files[0])
-
-        print("Applying the delta")
-        weight_map = {}
-        total_size = 0
-
-        for i, base_file in tqdm(enumerate(base_files)):
-            state_dict = torch.load(base_file)
-            file_name = f"pytorch_model-{i}.bin"
-            for name, param in state_dict.items():
-                if name not in delta_state_dict:
-                    for delta_file in delta_files:
-                        delta_state_dict = torch.load(delta_file)
-                        gc.collect()
-                        if name in delta_state_dict:
-                            break
-
-                state_dict[name] += delta_state_dict[name]
-                weight_map[name] = file_name
-                total_size += param.numel() * param.element_size()
-                gc.collect()
-            torch.save(state_dict, os.path.join(target_model_path, file_name))
-
-        with open(
-            os.path.join(target_model_path, "pytorch_model.bin.index.json"), "w"
-        ) as f:
-            json.dump(
-                {"weight_map": weight_map, "metadata": {"total_size": total_size}}, f
-            )
-
-    print(f"Saving the target model to {target_model_path}")
-    delta_tokenizer.save_pretrained(target_model_path)
-    delta_config.save_pretrained(target_model_path)
-
-
-def apply_delta(base_model_path, target_model_path, delta_path):
-    print(f"Loading the delta weights from {delta_path}")
-    delta_tokenizer = AutoTokenizer.from_pretrained(delta_path, use_fast=False)
-    delta = AutoModelForCausalLM.from_pretrained(
-        delta_path, torch_dtype=torch.float16, low_cpu_mem_usage=True
+    Additional notes:
+        - If things run too slowly, and you have an 80G GPU lying around, let GPU go brrr by setting `--device "cuda"`.
+        - If you want to save the recovered weights, set `--path_tuned <your_path_tuned>`.
+            Next time you can load the recovered weights directly from `<your_path_tuned>`.
+    """
+    model_raw: transformers.PreTrainedModel = transformers.AutoModelForCausalLM.from_pretrained(
+        path_raw,
+        device_map={"": torch.device(device)},
+        torch_dtype=torch.float32,
+        low_cpu_mem_usage=True,
+    )
+    model_recovered: transformers.PreTrainedModel = transformers.AutoModelForCausalLM.from_pretrained(
+        path_diff,
+        device_map={"": torch.device(device)},
+        torch_dtype=torch.float32,
+        low_cpu_mem_usage=True,
     )
 
-    print(f"Loading the base model from {base_model_path}")
-    base = AutoModelForCausalLM.from_pretrained(
-        base_model_path, torch_dtype=torch.float16, low_cpu_mem_usage=True
+    tokenizer_raw: transformers.PreTrainedTokenizer = transformers.AutoTokenizer.from_pretrained(
+        path_raw, use_fast =False
+    )
+    if tokenizer_raw.pad_token is None:
+        smart_tokenizer_and_embedding_resize(
+            special_tokens_dict=dict(pad_token="[PAD]"),
+            model=model_raw,
+            tokenizer=tokenizer_raw,
+        )
+    tokenizer_recovered: transformers.PreTrainedTokenizer = transformers.AutoTokenizer.from_pretrained(
+        path_diff, use_fast =False
     )
 
-    print("Applying the delta")
-    for name, param in tqdm(base.state_dict().items(), desc="Applying delta"):
-        assert name in delta.state_dict()
-        param.data += delta.state_dict()[name]
+    state_dict_recovered = model_recovered.state_dict()
+    state_dict_raw = model_raw.state_dict()
+    for key in tqdm.tqdm(state_dict_recovered):
+        state_dict_recovered[key].add_(state_dict_raw[key])
 
-    print(f"Saving the target model to {target_model_path}")
-    base.save_pretrained(target_model_path)
-    delta_tokenizer.save_pretrained(target_model_path)
+    if check_integrity_naively:
+        # This is not a rigorous, cryptographically strong integrity check :)
+        allsum = sum(state_dict_recovered[key].sum() for key in state_dict_recovered)
+        assert torch.allclose(
+            allsum, torch.full_like(allsum, fill_value=50637.1836), atol=1e-2, rtol=0
+        ), "Naive integrity check failed. This could imply that some of the checkpoint files are corrupted."
+
+    if path_tuned is not None:
+        model_recovered.save_pretrained(path_tuned)
+        tokenizer_recovered.save_pretrained(path_tuned)
+
+    if test_inference:
+        input_text = (
+            "Below is an instruction that describes a task. "
+            "Write a response that appropriately completes the request.\r\n\r\n"
+            "### Instruction:\r\nList three technologies that make life easier.\r\n\r\n### Response:"
+        )
+        inputs = tokenizer_recovered(input_text, return_tensors="pt")
+        out = model_recovered.generate(inputs=inputs.input_ids, max_new_tokens=100)
+        output_text = tokenizer_recovered.batch_decode(out, skip_special_tokens=True)[0]
+        output_text = output_text[len(input_text) :]
+        print(f"Input: {input_text}\nCompletion: {output_text}")
+
+    return model_recovered, tokenizer_recovered
+
+
+def main(**kwargs):
+    recover(**kwargs)
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--base-model-path", type=str, required=True)
-    parser.add_argument("--target-model-path", type=str, required=True)
-    parser.add_argument("--delta-path", type=str, required=True)
-    parser.add_argument(
-        "--low-cpu-mem",
-        action="store_true",
-        help="Lower the cpu memory usage. This will split large files and use "
-        "disk as swap to reduce the memory usage below 10GB.",
-    )
-    args = parser.parse_args()
-
-    if args.low_cpu_mem:
-        apply_delta_low_cpu_mem(
-            args.base_model_path, args.target_model_path, args.delta_path
-        )
-    else:
-        apply_delta(args.base_model_path, args.target_model_path, args.delta_path)
+    fire.Fire(main)
