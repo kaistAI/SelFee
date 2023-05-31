@@ -12,12 +12,12 @@
 
 
 ## News
-[May 31, 2023] Initial release: We released the first version of Selfee! Check out the <a href="https://kaistai.github.io/SelFee/">blog post</a> for more details.
+[May 31, 2023] Initial release: We released the first version of SelFee! Check out the <a href="https://kaistai.github.io/SelFee/">blog post</a> for more details.
 
 
 ## Overview
-This is the repository for the KAIST Selfee project, which aims to build and share an instruction-following LLaMA model. This repo mainly has five contents:
-- The selection process of the 178K training data for Selfee ([detail](#data-release), [code](data_collection)).
+This is the repository for the KAIST SelFee project, which aims to build and share an instruction-following LLaMA model. This repo mainly has five contents:
+- The selection process of the 178K training data for SelFee ([detail](#data-release), [code](data_collection)).
 - The generation process for the training data and its result. ([detail](#data-generation-process), [code](data_augmentation)).
 - The training process for the model  ([detail](#training), [code](train)).
 - The inference process for the model ([detail](#inference), [code](inference)).
@@ -191,7 +191,7 @@ Please cite if you use the data or code in this repo.
 @misc{selfee2023,
 	author = {Ye, Seonghyeon and Jo, Yongrae and Kim, Doyoung and Kim, Sungdong and Hwang, Hyeonbin and Seo, Minjoon},
 	title = {SelFee: Iterative Self-Revising LLM Empowered by Self-Feedback Generation},
-	url = {https://kaist-lklab.github.io/selfee},
+	url = {https://kaistai.github.io/SelFee/},
 	month = {May},
 	year = {2023},
 	howpublished = {Blog post}
