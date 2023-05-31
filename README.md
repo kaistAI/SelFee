@@ -164,10 +164,10 @@ python evaluation/gpt4_automatic_evaluation.py -q evaluation/template/question.j
 ## Limitations 
 Similar to other LLaMA-finetuned models, SelFee also make some mistakes especially for math, reasoning, factuality, and coding tasks. Although our performance outperforms ChatGPT on Vicuna setting, the evaluation setting contains some limitations in terms of comprehension (limited to 80 queries), inconsistency, and unreliability. Therefore, further research for a better evaluation setting is needed. Please take these claims with a grain of salt.
 
-### Online demo
+## Online demo
 Check out the <a href="https://kaistai.github.io/SelFee/demo">demo</a>!
 
-#### How to launch the demo
+#### How to launch the demo yourself
 To serve the web demo yourself, run the following commands:
 
 1. Run the controller
@@ -185,7 +185,7 @@ python3 -m serve.model_worker --model-path $MODEL_PATH --port 21002 --worker-add
 python3 -m serve.gradio_web_server --share
 ```
 
-You can find the serving code [here](serve)
+You can find the serving code [here](serve).
 
 
 ### Team members
