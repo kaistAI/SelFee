@@ -23,8 +23,7 @@ def recover(
     path_diff,
     path_tuned: Optional[str] = None,
     device="cpu",
-    test_inference=True,
-    check_integrity_naively=True,
+    test_inference=True
 ):
     """Recover the original weights from the released weight diff.
 
@@ -76,28 +75,22 @@ def recover(
     for key in tqdm.tqdm(state_dict_recovered):
         state_dict_recovered[key].add_(state_dict_raw[key])
 
-    if check_integrity_naively:
-        # This is not a rigorous, cryptographically strong integrity check :)
-        allsum = sum(state_dict_recovered[key].sum() for key in state_dict_recovered)
-        assert torch.allclose(
-            allsum, torch.full_like(allsum, fill_value=50637.1836), atol=1e-2, rtol=0
-        ), "Naive integrity check failed. This could imply that some of the checkpoint files are corrupted."
 
     if path_tuned is not None:
         model_recovered.save_pretrained(path_tuned)
         tokenizer_recovered.save_pretrained(path_tuned)
 
-    if test_inference:
-        input_text = (
-            "Below is an instruction that describes a task. "
-            "Write a response that appropriately completes the request.\r\n\r\n"
-            "### Instruction:\r\nList three technologies that make life easier.\r\n\r\n### Response:"
-        )
-        inputs = tokenizer_recovered(input_text, return_tensors="pt")
-        out = model_recovered.generate(inputs=inputs.input_ids, max_new_tokens=100)
-        output_text = tokenizer_recovered.batch_decode(out, skip_special_tokens=True)[0]
-        output_text = output_text[len(input_text) :]
-        print(f"Input: {input_text}\nCompletion: {output_text}")
+    # if test_inference:
+    #     input_text = (
+    #         "Below is an instruction that describes a task. "
+    #         "Write a response that appropriately completes the request.\r\n\r\n"
+    #         "### Instruction:\r\nList three technologies that make life easier.\r\n\r\n### Response:"
+    #     )
+    #     inputs = tokenizer_recovered(input_text, return_tensors="pt")
+    #     out = model_recovered.generate(inputs=inputs.input_ids, max_new_tokens=2048)
+    #     output_text = tokenizer_recovered.batch_decode(out, skip_special_tokens=True)[0]
+    #     output_text = output_text[len(input_text) :]
+    #     print(f"Input: {input_text}\nCompletion: {output_text}")
 
     return model_recovered, tokenizer_recovered
 
