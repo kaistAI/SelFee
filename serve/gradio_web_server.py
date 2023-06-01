@@ -307,9 +307,9 @@ def http_bot(state, model_selector, temperature, max_new_tokens, request: gr.Req
 notice_markdown = ("""
 # SelFee: Iterative Self-Revising LLM Empowered by Self-Feedback Generation
 
-We are excited to announce the release of SelFee, our new instruction-following language model that generates self-feedback on its response and self-revises based on feedback. Check out our <a href= "https://kaist-lklab.github.io/selfee">blog post!</a>
+We are excited to announce the release of SelFee, our new instruction-following language model that generates self-feedback on its response and self-revises based on feedback. Check out our <a href= "https://kaistai.github.io/SelFee/">blog post!</a>
 
-Note: The current model is enforced to revise at least once. To control the number of minimum enforced revisions, check out our <a href="https://github.com/kaist-lklab/SelFee">Github</a> source code! Also, the delta weights and the training data are released on <a href="huggingface.co">huggingface</a>.
+Note: The current model is enforced to revise at least once. To control the number of minimum enforced revisions, check out our <a href="https://github.com/kaistAI/SelFee">Github</a> source code! Also, the delta weights and the training data are released on <a href="https://huggingface.co/datasets/kaist-ai/selfee-train">huggingface</a>.
 """)
 
 
